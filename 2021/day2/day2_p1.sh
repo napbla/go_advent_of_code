@@ -1,0 +1,1 @@
+g++ day2_p1.cpp -o day2_p1 && ./day2_p1
