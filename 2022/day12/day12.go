@@ -48,7 +48,7 @@ func printDebugFlags(flags [][]int, min int) {
 
 }
 
-// Dijkstra using Dynamic programming (recursive call + caching)
+// Dijkstra using Dynamic programming (recursive call + caching), kinda similar to Flood Fill
 //
 //	We iterate 4 directions , caching the distance in flags array.
 //	For one direction, if the distance from start to the next position which is stores in flags array
