@@ -48,6 +48,13 @@ func printDebugFlags(flags [][]int, min int) {
 
 }
 
+// Dynamic programming = recursive call + caching
+//
+//	We iterate 4 directions , caching the distance in flags array.
+//	For one direction, if the distance from start to the next position which is stores in flags array
+//
+// smaller than current distance + 1, we will move to that direction. If not there exists some
+// path with smaller distance so we can ignore it.
 func explore(i int, j int, sum int, hillMap []string, flags [][]int, f comparer) {
 	flags[i][j] = sum
 
@@ -89,6 +96,8 @@ func main() {
 	var start position
 	var end position
 
+	debug := true
+
 	for scanner.Scan() {
 		s := scanner.Text()
 		hillMap = append(hillMap, s)
@@ -115,7 +124,9 @@ func main() {
 
 	explore(start.x, start.y, 0, hillMap, flags, compare)
 
-	printDebugFlags(flags, min)
+	if debug {
+		printDebugFlags(flags, min)
+	}
 
 	fmt.Printf("part1 = %v\n", flags[end.x][end.y])
 
@@ -125,9 +136,12 @@ func main() {
 
 	explore(end.x, end.y, 0, hillMap, flags, compare2)
 
-	printDebugFlags(flags, min)
+	if debug {
+		printDebugFlags(flags, min)
+	}
 
 	//find smallest path from E to any 'a'
+	//reuse min variable
 	for i := 0; i < len(hillMap); i++ {
 		for j := 0; j < len(hillMap[i]); j++ {
 			if hillMap[i][j] == 'a' && flags[i][j] < min {
