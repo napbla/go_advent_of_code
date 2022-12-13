@@ -96,7 +96,7 @@ func main() {
 	var start position
 	var end position
 
-	debug := true
+	debug := false
 
 	for scanner.Scan() {
 		s := scanner.Text()
