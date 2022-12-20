@@ -55,7 +55,7 @@ func isAdjacent(a *Vec3, b *Vec3) bool {
 }
 
 // 0: air, 1:obsidian, 2:visited in part 2
-var cubeFlags map[string]int
+var cubeFlags map[Vec3]int
 
 func surface(cubes []*Vec3) int {
 	hides := make([]int, len(cubes))
@@ -89,7 +89,7 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	cubeFlags = make(map[string]int)
+	cubeFlags = make(map[Vec3]int)
 
 	min := Vec3{0, 0, 0}
 	max := Vec3{0, 0, 0}
@@ -127,7 +127,7 @@ func main() {
 		max.Y = Max(max.Y, y)
 		max.Z = Max(max.Z, z)
 
-		cubeFlags[fmt.Sprintf("%v", cube)] = 1
+		cubeFlags[cube] = 1
 	}
 
 	surfaceArea := surface(cubes)
@@ -144,20 +144,20 @@ func main() {
 	for len(queue) > 0 {
 		current := queue[0]
 		queue = queue[1:]
-		if cubeFlags[fmt.Sprintf("%v", current)] == 0 {
+		if cubeFlags[*current] == 0 {
 			for _, m := range moves {
 				next := Add(*current, m)
 				if next.X < min.X || next.Y < min.Y || next.Z < min.Z || next.X > max.X || next.Y > max.Y || next.Z > max.Z {
 					continue
 				}
-				if cubeFlags[fmt.Sprintf("%v", next)] == 1 {
+				if cubeFlags[next] == 1 {
 					count++
 				}
-				if cubeFlags[fmt.Sprintf("%v", next)] == 0 {
+				if cubeFlags[next] == 0 {
 					queue = append(queue, &next)
 				}
 			}
-			cubeFlags[fmt.Sprintf("%v", current)] = 2
+			cubeFlags[*current] = 2
 		}
 	}
 
